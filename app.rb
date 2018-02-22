@@ -1,0 +1,18 @@
+ENV['RACK_ENV'] ||= 'development' #environment can only be strings 
+require 'bundler'
+Bundler.require :default, ENV['RACK_ENV'].to_sym # converts to a symbol here
+
+require 'sinatra/base'
+require 'rubygems'
+require 'sinatra'
+require 'sinatra/activerecord'
+require './environments'
+require './models/app'
+require_relative 'routes'
+
+class Ideas < Sinatra::Base
+  set :root, File.dirname(__FILE__)
+  enable :sessions
+  set :views, Proc.new { File.join(root, "views")}
+  register Sinatra::ActiveRecordExtension
+end
